@@ -41,8 +41,12 @@
 <!-- Crear un enlace con una ruta y un estilo de botón -->
     <a href="{{ url_for('cuadriculaLandsat') }}" class="btn btn-primary">Generar Cuadrilla</a>
 
+<a href="{{ url_for('cuadriculaLandsat', lat=latitudes, lon=longitudes) }}">Ir a Segunda Ruta</a>
+
+
+
 <div>
-    {{ Cuadricula }}
+    {{ Cuadricula|safe }}
 </div>
 
 </body>

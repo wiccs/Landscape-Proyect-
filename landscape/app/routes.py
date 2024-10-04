@@ -47,6 +47,8 @@ def api_data():
     session['latitud'] = latitud  # Guardar la latitud en la sesión
     session['longitud'] = longitud  # Guardar la longitud en la sesión
 
+    print(f"Latitud: {session['latitud']}, Longitud: {session['longitud']}")
+
     conexion = ConexionN2yo.Conexion()
     json_data = conexion.conectar(latitud,longitud)  # Llama al método con las coordenadas
 
@@ -130,12 +132,9 @@ if __name__ == '__main__':
 
 def ecenaLandsat():
 
-    # # Obtener los parámetros de la solicitud
-    # latitud = session.get('latitud')  # Obtén la variable de sesión 'latitud'
-    # longitud = session.get('longitud')  # Obtén la variable de sesión 'longitud'
-
     latitud = request.form.get('lat')  # Obtiene la latitud del formulario
     longitud = request.form.get('lon')  # Obtiene la longitud del formulario
+
 
     print(f'Latitud: {latitud} y longitud {longitud}: ' )
 
@@ -216,10 +215,12 @@ def ecenaLandsat():
     with open("ecenitaLandsat.html", 'r') as file:
         mapa_html = file.read()
 
-    return render_template('index.html', Mapa=mapa_html)
+    return render_template('index.html', Mapa=mapa_html, latitudes= latitud, longitudes = longitud)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
 
 #-----------------------------------------------------------------------------------------------------------------------
 
@@ -232,12 +233,19 @@ def cuadriculaLandsat():
     conexion = ConexionGoogleEE.Conexion()
     conexion.conectar()
 
-    latitud_guardada = session.get('latitud', 'No disponible')
-    longitud_guardada = session.get('longitud', 'No disponible')
+
+
+    # Capturamos las coordenadas que vienen en la URL
+    latitud = request.args.get('lat')
+    longitud = request.args.get('lon')
+
+    longitud = float(longitud)
+    latitud = float(latitud)
+
+    print(latitud, longitud)
 
     # Definir el área de interés (AOI) para San Miguel el Grande, Oax
-    aoi = ee.Geometry.Point(latitud_guardada,longitud_guardada)  # Coordenadas ajustadas según el AOI
-
+    aoi = ee.Geometry.Point(longitud,latitud) # Coordenadas ajustadas según el AOI
     # Definir el rango de fechas para agosto de 2024
     start_date = '2024-08-01'
     end_date = '2024-08-31'
