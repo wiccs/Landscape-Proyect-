@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4 text-center">Bienvenido a Landscape App!</h1>
+    <p class="lead"></p>
+    <hr class="my-2">
+    <p class="text-center">Utilice esta aplicación para gestionar sus proyectos paisajísticos de manera eficiente.</p>
+</div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa con Landsat</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</head>
+<body>
+
+ <!-- Contenedor para el mapa -->
+ <div id="map" style="height: 500px;"></div>
+
+ <!-- Formulario con campos para latitud y longitud -->
+ <form class="Datos" action="/ecenaLandsat" method="post">
+     <label for="lat">Latitud:</label>
+     <input type="text" id="lat" name="lat" readonly>
+     <br>
+     <label for="lon">Longitud:</label>
+     <input type="text" id="lon" name="lon" readonly>
+     <button type="submit"> Listo </button>
+ </form>
+
+ <div id="map-container" style="height: 600px;">
+    {{ Mapa|safe }}
+</div>
+
+<!-- Crear un enlace con una ruta y un estilo de botón -->
+    <a href="{{ url_for('cuadriculaLandsat') }}" class="btn btn-primary">Generar Cuadrilla</a>
+
+<div>
+    {{ Cuadricula }}
+</div>
+
+</body>
+</html>
+
+{% endblock %}
